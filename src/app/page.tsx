@@ -30,7 +30,7 @@ export default function Home() {
       const { latitude, longitude } = position.coords;
       const cuidadorId = uuidv4(); // Placeholder for actual caregiver ID
       const pacienteId = uuidv4(); // Placeholder for actual patient ID
-      const newTrackingLink = uuidv4();
+      const newTrackingLink = uuidv4(); // Generate UUID for the tracking link
 
       const { data, error: dbError } = await supabase
         .from('guardias')
@@ -40,7 +40,7 @@ export default function Home() {
             paciente_id: pacienteId,
             latitud_inicio: latitude,
             longitud_inicio: longitude,
-            link_seguimiento: newTrackingLink,
+            link_seguimiento: newTrackingLink, // Use the generated UUID here
             estado: 'activo',
           },
         ])
@@ -51,7 +51,7 @@ export default function Home() {
         setError(`Failed to start guardia: ${dbError.message}`);
       } else if (data && data.length > 0) {
         setGuardiaId(data[0].id);
-        setTrackingLink(`${window.location.origin}/track/${newTrackingLink}`); // Construct tracking URL
+        setTrackingLink(`${window.location.origin}/track/${data[0].link_seguimiento}`); // BUG FIXED: Use link_seguimiento from DB
         setStatusMessage("Guardia iniciada con éxito!");
       } else {
         setError("Failed to start guardia: No data returned.");

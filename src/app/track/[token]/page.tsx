@@ -5,7 +5,9 @@ interface TrackingPageProps {
 }
 
 export default async function TrackingPage({ params }: TrackingPageProps) {
-  const { token } = params; // params is now directly available, no await needed for Next.js 15/16 App Router
+  const { token } = params;
+
+  console.log("Token buscado:", token); // Added console.log
 
   if (!token) {
     return (
@@ -43,6 +45,19 @@ export default async function TrackingPage({ params }: TrackingPageProps) {
         <div className="bg-gray-800 p-8 rounded-lg shadow-lg text-center max-w-md">
           <h1 className="text-3xl font-bold text-yellow-500 mb-4">Guardia No Encontrada</h1>
           <p className="text-lg text-gray-300">El link de seguimiento no es válido o la guardia no existe.</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Fallback for 'finalizado' state
+  if (guardia.estado === 'finalizado') {
+    return (
+      <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center p-4">
+        <div className="bg-gray-800 p-8 rounded-lg shadow-lg text-center max-w-md">
+          <h1 className="text-3xl font-bold text-orange-500 mb-4">Guardia Finalizada</h1>
+          <p className="text-lg text-gray-300">Esta guardia ha sido marcada como finalizada.</p>
+          <p className="text-lg text-gray-300">Gracias por tu servicio.</p>
         </div>
       </div>
     );
