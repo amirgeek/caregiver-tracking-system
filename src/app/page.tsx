@@ -50,8 +50,9 @@ export default function Home() {
         console.error("Error inserting data:", dbError);
         setError(`Failed to start guardia: ${dbError.message}`);
       } else if (data && data.length > 0) {
+        console.log("UUID from DB for tracking link:", data[0].link_seguimiento); // Added console.log
         setGuardiaId(data[0].id);
-        setTrackingLink(`${window.location.origin}/track/${data[0].link_seguimiento}`); // BUG FIXED: Use link_seguimiento from DB
+        setTrackingLink(`${window.location.origin}/track/${data[0].link_seguimiento}`); // Use link_seguimiento from DB
         setStatusMessage("Guardia iniciada con éxito!");
       } else {
         setError("Failed to start guardia: No data returned.");
