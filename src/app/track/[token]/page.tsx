@@ -5,7 +5,18 @@ interface TrackingPageProps {
 }
 
 export default async function TrackingPage({ params }: TrackingPageProps) {
-  const { token } = params;
+  const { token } = params; // params is now directly available, no await needed for Next.js 15/16 App Router
+
+  if (!token) {
+    return (
+      <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center p-4">
+        <div className="bg-gray-800 p-8 rounded-lg shadow-lg text-center max-w-md">
+          <h1 className="text-3xl font-bold text-yellow-500 mb-4">Token de Seguimiento Inválido</h1>
+          <p className="text-lg text-gray-300">El link de seguimiento proporcionado no es válido.</p>
+        </div>
+      </div>
+    );
+  }
 
   const { data: guardia, error } = await supabase
     .from('guardias')
